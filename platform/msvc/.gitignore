@@ -1,0 +1,5 @@
+pbd/
+projects/*
+
+!projects/pbd.vcxproj
+!projects/pbd.vcxproj.filters

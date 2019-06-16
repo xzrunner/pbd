@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="constraint">
+      <UniqueIdentifier>{ba8c5366-6dd7-4ea7-a2f1-19384c2ad416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="emitter">
+      <UniqueIdentifier>{45cbcff8-47cc-4e24-bf48-041508f9ccba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{a95ef1bc-1da9-4a54-989b-191cf92f89bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{e3e698e1-216f-4e50-9300-b141dae8575a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{75b4185d-bafb-4f0a-b140-435b49f60981}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\constraint\BoundaryCS.cpp">
+      <Filter>constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\constraint\ContactCS.cpp">
+      <Filter>constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\constraint\DistanceCS.cpp">
+      <Filter>constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\constraint\GasCS.cpp">
+      <Filter>constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\constraint\RigidContactCS.cpp">
+      <Filter>constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\constraint\TotalFluidCS.cpp">
+      <Filter>constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\constraint\TotalShapeCS.cpp">
+      <Filter>constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\FluidEmitter.cpp">
+      <Filter>emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\OpenSmokeEmitter.cpp">
+      <Filter>emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Solver.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Particle.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\SmokeParticle.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Body.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Simulation.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\pbd\constraint\BoundaryCS.h">
+      <Filter>constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\constraint\ContactCS.h">
+      <Filter>constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\constraint\DistanceCS.h">
+      <Filter>constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\constraint\GasCS.h">
+      <Filter>constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\constraint\RigidContactCS.h">
+      <Filter>constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\constraint\TotalFluidCS.h">
+      <Filter>constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\constraint\TotalShapeCS.h">
+      <Filter>constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\FluidEmitter.h">
+      <Filter>emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\OpenSmokeEmitter.h">
+      <Filter>emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\Solver.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\Particle.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\SmokeParticle.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\Body.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\SDFData.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\Simulation.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\Constraint.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pbd\config.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
