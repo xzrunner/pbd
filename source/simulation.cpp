@@ -23,15 +23,15 @@
 // Iterative or matrix solve
 #define ITERATIVE
 
+// Use stabilization pass or not, and if so how many iterations
+//#define USE_STABILIZATION
+//#define STABILIZATION_ITERATIONS 2
+
 namespace
 {
 
 // Number of solver iterations per timestep
 const int SOLVER_ITERATIONS = 3;
-
-// Use stabilization pass or not, and if so how many iterations
-//#define USE_STABILIZATION
-const int STABILIZATION_ITERATIONS = 2;
 
 // Gravity scaling factor for gases
 const double ALPHA = -.2;
@@ -43,8 +43,9 @@ namespace pbd
 
 Simulation::Simulation()
 {
-    Init(WRECKING_BALL);
-    m_debug = true;
+    //Init(WRECKING_BALL);
+    Init(DEBUG_SCENE);
+//    m_debug = true;
 }
 
 Simulation::~Simulation()
@@ -125,6 +126,9 @@ void Simulation::Init(SimulationType type)
         InitVolcano(); break;
     case WRECKING_BALL:
         InitWreckingBall(); break;
+    case DEBUG_SCENE:
+        InitDebugScene(); break;
+        break;
     default:
         InitBoxes(); break;
     }
@@ -215,7 +219,7 @@ void Simulation::Tick(double seconds)
                         );
 #ifdef USE_STABILIZATION
                         constraints[STABILIZATION].push_back(
-                            std::make_shared<RigidContactCS>(i, j, m_bodies, true)
+                            std::make_shared<constraint::RigidContactCS>(i, j, m_bodies, true)
                         );
 #endif
                     // Regular contact constraints (which have no friction) apply to other solid-other contact
@@ -235,7 +239,7 @@ void Simulation::Tick(double seconds)
             );
 #ifdef USE_STABILIZATION
             constraints[STABILIZATION].push_back(
-                std::make_shared<BoundaryCS>(i, m_x_boundaries.x, true, true, true)
+                std::make_shared<constraint::BoundaryCS>(i, m_x_boundaries.x, true, true, true)
             );
 #endif
         } else if (p->ep.x > m_x_boundaries.y - PARTICLE_RAD) {
@@ -244,7 +248,7 @@ void Simulation::Tick(double seconds)
             );
 #ifdef USE_STABILIZATION
             constraints[STABILIZATION].push_back(
-                std::make_shared<BoundaryCS>(i, m_x_boundaries.y, true, false, true)
+                std::make_shared<constraint::BoundaryCS>(i, m_x_boundaries.y, true, false, true)
             );
 #endif
         }
@@ -255,7 +259,7 @@ void Simulation::Tick(double seconds)
             );
 #ifdef USE_STABILIZATION
             constraints[STABILIZATION].push_back(
-                std::make_shared<BoundaryCS>(i, m_y_boundaries.x, false, true, true)
+                std::make_shared<constraint::BoundaryCS>(i, m_y_boundaries.x, false, true, true)
             );
 #endif
         } else if (p->ep.y > m_y_boundaries.y - PARTICLE_RAD) {
@@ -263,7 +267,7 @@ void Simulation::Tick(double seconds)
                 std::make_shared<constraint::BoundaryCS>(i, m_y_boundaries.y, false, false));
 #ifdef USE_STABILIZATION
             constraints[STABILIZATION].push_back(
-                std::make_shared<BoundaryCS>(i, m_y_boundaries.y, false, false, true));
+                std::make_shared<constraint::BoundaryCS>(i, m_y_boundaries.y, false, false, true));
 #endif
         }
     }
@@ -303,7 +307,7 @@ void Simulation::Tick(double seconds)
 #else
         // (11, 12, 13, 14) Solve contact constraints and update p, ep, and n
         if (constraints[STABILIZATION].size() > 0) {
-            m_contact_solver.SolveAndUpdate(m_particles, &constraints[STABILIZATION], true);
+            m_contact_solver.SolveAndUpdate(m_particles, constraints[STABILIZATION], true);
         } else {
             break;
         }
@@ -337,19 +341,19 @@ void Simulation::Tick(double seconds)
 
 #else
 
-    m_standard_solver.SetupSizes(m_particles.size(), &constraints[STANDARD]);
-    m_contact_solver.SetupSizes(m_particles.size(), &constraints[CONTACT]);
+    m_standard_solver.SetupSizes(m_particles.size(), constraints[STANDARD]);
+    m_contact_solver.SetupSizes(m_particles.size(), constraints[CONTACT]);
 
     // (16) For solver iterations
     for (int i = 0; i < SOLVER_ITERATIONS; i++) {
 
         // (17, 18, 19, 20) for constraint group, solve constraints and update ep
         if (constraints[CONTACT].size() > 0) {
-            m_contact_solver.SolveAndUpdate(m_particles, &constraints[CONTACT]);
+            m_contact_solver.SolveAndUpdate(m_particles, constraints[CONTACT]);
         }
 
         if (constraints[STANDARD].size() > 0) {
-            m_standard_solver.SolveAndUpdate(m_particles, &constraints[STANDARD]);
+            m_standard_solver.SolveAndUpdate(m_particles, constraints[STANDARD]);
         }
 
         if (constraints[SHAPE].size() > 0) {
@@ -1304,6 +1308,48 @@ void Simulation::InitWreckingBall()
     m_global_constraints[STANDARD].push_back(
         std::make_shared<constraint::DistanceCS>(idx, idx + 1, m_particles)
     );
+}
+
+void Simulation::InitDebugScene()
+{
+    m_x_boundaries = glm::dvec2(-5, 5);
+    m_y_boundaries = glm::dvec2(0,1000000);
+
+    glm::dvec2 dim = glm::dvec2(6,2);
+//    int height = 8, width = 2;
+//    int height = 4, width = 1;
+    int height = 2, width = 1;
+    double root2 = sqrt(2);
+    std::vector<std::unique_ptr<Particle>> vertices;
+    std::vector<SDFData> data;
+    data.push_back(SDFData(glm::normalize(glm::dvec2(-1,-1)), PARTICLE_RAD * root2));
+    data.push_back(SDFData(glm::normalize(glm::dvec2(-1,1)), PARTICLE_RAD * root2));
+
+    for (int i = 0; i < dim.x - 2; i++) {
+        data.push_back(SDFData(glm::normalize(glm::dvec2(0,-1)), PARTICLE_RAD));
+        data.push_back(SDFData(glm::normalize(glm::dvec2(0,1)), PARTICLE_RAD));
+    }
+
+    data.push_back(SDFData(glm::normalize(glm::dvec2(1,-1)), PARTICLE_RAD * root2));
+    data.push_back(SDFData(glm::normalize(glm::dvec2(1,1)), PARTICLE_RAD * root2));
+
+    for (int j = -width; j <= width; j++) {
+        for (int i = height - 1; i >= 0; i--) {
+            for (int x = 0; x < dim.x; x++) {
+                double num = (i % 2 == 0 ? 3 : -1);
+                double xVal = j * (EPSILON + dim.x / 2.) + PARTICLE_DIAM * (x % (int)dim.x) - num * PARTICLE_RAD;
+                for (int y = 0; y < dim.y; y++) {
+                    double yVal = (i * dim.y + (y % (int)dim.y) + EPSILON) * PARTICLE_DIAM + PARTICLE_RAD;
+                    auto part = std::make_unique<Particle>(glm::dvec2(xVal, yVal), 30.);
+                    part->sFriction = 1;
+                    part->kFriction = 1;
+                    vertices.push_back(std::move(part));
+                }
+            }
+            CreateRigidBody(vertices, data);
+        }
+        break;
+    }
 }
 
 int Simulation::GetNumParticles()
