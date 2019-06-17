@@ -99,9 +99,16 @@ void Solver::SolveAndUpdate(const std::vector<std::unique_ptr<Particle>>& partic
         updated = true;
     }
 
-    auto temp = m_invM * m_JT;
-    m_A = m_JT.transpose() * temp;
+    auto temp = m_invM * m_JT;     // [p, p] * [p, c] = [p, c]
+    m_A = m_JT.transpose() * temp; // [c, p] * [p, c] = [c, c]
+    
 //    m_JT.printMatrix(4,false);
+
+    // gamma = - C / (grad(C) * invM * T(grad(C)))
+    // J * invM * JT * gamma = b
+
+    // Ax = B // [c, c][c, 1] = [c, 1]
+    // J * invM * JT * gamma = B
 
     Eigen::SimplicialCholesky<Eigen::SparseMatrix<double>> chol(m_A);  // performs a Cholesky factorization of A
     m_gamma = chol.solve(m_b);
@@ -117,7 +124,9 @@ void Solver::SolveAndUpdate(const std::vector<std::unique_ptr<Particle>>& partic
 //        printf("%.4f\n", m_gamma[i]);
 //    }
 //    cout << endl;
-    m_dp = temp * m_gamma;
+    m_dp = temp * m_gamma; // [p, c] * [c, 1] = [p, 1]
+    
+    // 
 
     for (size_t i = 0; i < particles.size(); i++) {
         auto& p = particles[i];
