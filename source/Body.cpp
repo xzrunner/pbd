@@ -7,7 +7,7 @@ namespace pbd
 void Body::UpdateCOM(const std::vector<std::unique_ptr<Particle>>& estimates, bool useEstimates)
 {
     // Recompute center of mass
-    glm::dvec2 total;
+    glm::dvec2 total(0, 0);
     for (size_t i = 0; i < particles.size(); i++) {
         auto& p = estimates[particles[i]];
         total += (useEstimates ? p->ep : p->p) / p->imass;
