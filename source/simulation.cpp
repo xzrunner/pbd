@@ -16,6 +16,7 @@
 
 #include <SM_Calc.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 
 #include <iostream>
@@ -517,7 +518,7 @@ void Simulation::CreateFluidEmitter(glm::dvec2 posn, double particlesPerSec,
     );
 }
 
-void Simulation::Draw()
+void Simulation::Draw(const ur2::Device& dev, ur2::Context& ctx)
 {
     tess::Painter pt;
     pt.SetAntiAliased(false);
@@ -528,14 +529,15 @@ void Simulation::Draw()
     if (m_debug) {
         DrawParticles(pt, mt);
     }
-    DrawBodies(pt, mt);
-    DrawGlobals(pt, mt);
+    DrawBodies(dev, ctx, pt, mt);
+    DrawGlobals(dev, ctx, pt, mt);
     DrawSmoke(pt, mt);
 
     //const float half_point_size = 2.5f;
     //pt.AddRectFilled(sm::vec2(m_point.x, m_point.y), half_point_size, 0xffffffff);
 
-    pt2::RenderSystem::DrawPainter(pt);
+    ur2::RenderState rs;
+    pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 }
 
 void Simulation::Resize(const glm::ivec2 &dim)
@@ -597,14 +599,15 @@ void Simulation::DrawParticles(tess::Painter& pt, const sm::mat4& mt)
     }
 }
 
-void Simulation::DrawBodies(tess::Painter& pt, const sm::mat4& mt)
+void Simulation::DrawBodies(const ur2::Device& dev, ur2::Context& ctx,
+                            tess::Painter& pt, const sm::mat4& mt)
 {
     for (size_t i = 0; i < m_bodies.size(); i++)
     {
         auto& b = m_bodies[i];
         if (m_debug)
         {
-            b->shape->Draw(m_particles);
+            b->shape->Draw(dev, ctx, m_particles);
         }
         else
         {
@@ -629,11 +632,12 @@ void Simulation::DrawBodies(tess::Painter& pt, const sm::mat4& mt)
     }
 }
 
-void Simulation::DrawGlobals(tess::Painter& pt, const sm::mat4& mt)
+void Simulation::DrawGlobals(const ur2::Device& dev, ur2::Context& ctx,
+                             tess::Painter& pt, const sm::mat4& mt)
 {
     for (size_t i = 0; i < m_global_constraints.size(); i++) {
         for (size_t j = 0; j < m_global_constraints[(ConstraintGroup) i].size(); j++) {
-            m_global_constraints[(ConstraintGroup)i][j]->Draw(m_particles);
+            m_global_constraints[(ConstraintGroup)i][j]->Draw(dev, ctx, m_particles);
         }
     }
 }

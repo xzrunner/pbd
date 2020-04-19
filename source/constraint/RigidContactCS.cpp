@@ -90,7 +90,8 @@ void RigidContactCS::Project(const std::vector<std::unique_ptr<Particle>>& estim
     }
 }
 
-void RigidContactCS::Draw(const std::vector<std::unique_ptr<Particle>>& particles)
+void RigidContactCS::Draw(const ur2::Device& dev, ur2::Context& ctx,
+                          const std::vector<std::unique_ptr<Particle>>& particles)
 {
 
 }

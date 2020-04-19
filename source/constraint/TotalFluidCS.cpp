@@ -178,7 +178,8 @@ void TotalFluidCS::Project(const std::vector<std::unique_ptr<Particle>>& estimat
     }
 }
 
-void TotalFluidCS::Draw(const std::vector<std::unique_ptr<Particle>>& particles)
+void TotalFluidCS::Draw(const ur2::Device& dev, ur2::Context& ctx,
+                        const std::vector<std::unique_ptr<Particle>>& particles)
 {
 }
 

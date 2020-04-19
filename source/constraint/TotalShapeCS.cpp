@@ -29,7 +29,8 @@ void TotalShapeCS::Project(const std::vector<std::unique_ptr<Particle>>& estimat
     }
 }
 
-void TotalShapeCS::Draw(const std::vector<std::unique_ptr<Particle>>& particles)
+void TotalShapeCS::Draw(const ur2::Device& dev, ur2::Context& ctx,
+                        const std::vector<std::unique_ptr<Particle>>& particles)
 {
     tess::Painter pt;
     pt.SetAntiAliased(false);

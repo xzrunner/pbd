@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 
+namespace ur2 { class Device; class Context; }
+
 namespace pbd
 {
 
@@ -27,7 +29,8 @@ public:
     Constraint() {}
     virtual ~Constraint() {}
 
-    virtual void Draw(const std::vector<std::unique_ptr<Particle>>& particles) = 0;
+    virtual void Draw(const ur2::Device& dev, ur2::Context& ctx,
+        const std::vector<std::unique_ptr<Particle>>& particles) = 0;
 
     // For iterative solving of constraints
     virtual void Project(const std::vector<std::unique_ptr<Particle>>& estimates, const std::vector<int>& counts) = 0;
