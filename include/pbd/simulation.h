@@ -8,7 +8,7 @@
 
 #include <unordered_map>
 
-namespace ur2 { class Device; class Context; }
+namespace ur { class Device; class Context; }
 namespace tess { class Painter; }
 
 namespace pbd
@@ -79,7 +79,7 @@ public:
 
     // Basic interaction events
     void Tick(double seconds);
-    void Draw(const ur2::Device& dev, ur2::Context& ctx);
+    void Draw(const ur::Device& dev, ur::Context& ctx);
     void Resize(const glm::ivec2 &dim);
     void MousePressed(const glm::dvec2 &p);
 
@@ -106,9 +106,9 @@ private:
     // Simple drawing routines
     void DrawGrid(tess::Painter& pt, const sm::mat4& mt);
     void DrawParticles(tess::Painter& pt, const sm::mat4& mt);
-    void DrawBodies(const ur2::Device& dev, ur2::Context& ctx,
+    void DrawBodies(const ur::Device& dev, ur::Context& ctx,
         tess::Painter& pt, const sm::mat4& mt);
-    void DrawGlobals(const ur2::Device& dev, ur2::Context& ctx,
+    void DrawGlobals(const ur::Device& dev, ur::Context& ctx,
         tess::Painter& pt, const sm::mat4& mt);
     void DrawSmoke(tess::Painter& pt, const sm::mat4& mt);
 

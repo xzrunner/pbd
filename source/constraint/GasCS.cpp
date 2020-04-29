@@ -236,7 +236,7 @@ void GasCS::Project(const std::vector<std::unique_ptr<Particle>>& estimates, con
 //    }
 }
 
-void GasCS::Draw(const ur2::Device& dev, ur2::Context& ctx,
+void GasCS::Draw(const ur::Device& dev, ur::Context& ctx,
                  const std::vector<std::unique_ptr<Particle>>& particles)
 {
 

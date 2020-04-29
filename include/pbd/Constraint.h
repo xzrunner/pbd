@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-namespace ur2 { class Device; class Context; }
+namespace ur { class Device; class Context; }
 
 namespace pbd
 {
@@ -29,7 +29,7 @@ public:
     Constraint() {}
     virtual ~Constraint() {}
 
-    virtual void Draw(const ur2::Device& dev, ur2::Context& ctx,
+    virtual void Draw(const ur::Device& dev, ur::Context& ctx,
         const std::vector<std::unique_ptr<Particle>>& particles) = 0;
 
     // For iterative solving of constraints

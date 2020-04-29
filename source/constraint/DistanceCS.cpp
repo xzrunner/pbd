@@ -3,7 +3,7 @@
 #include "pbd/config.h"
 
 #include <tessellation/Painter.h>
-#include <unirender2/RenderState.h>
+#include <unirender/RenderState.h>
 #include <painting2/RenderSystem.h>
 
 namespace pbd
@@ -49,7 +49,7 @@ void DistanceCS::Project(const std::vector<std::unique_ptr<Particle>>& estimates
     p2->ep += dp2;
 }
 
-void DistanceCS::Draw(const ur2::Device& dev, ur2::Context& ctx,
+void DistanceCS::Draw(const ur::Device& dev, ur::Context& ctx,
                       const std::vector<std::unique_ptr<Particle>>& particles)
 {
     auto& p1 = particles[m_i1];
@@ -68,7 +68,7 @@ void DistanceCS::Draw(const ur2::Device& dev, ur2::Context& ctx,
     pt.AddRectFilled(pos1, half_point_size, 0xffff00ff);
     pt.AddRectFilled(pos2, half_point_size, 0xffff00ff);
 
-    ur2::RenderState rs;
+    ur::RenderState rs;
     pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 }
 

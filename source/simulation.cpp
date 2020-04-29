@@ -16,7 +16,7 @@
 
 #include <SM_Calc.h>
 #include <tessellation/Painter.h>
-#include <unirender2/RenderState.h>
+#include <unirender/RenderState.h>
 #include <painting2/RenderSystem.h>
 
 #include <iostream>
@@ -518,7 +518,7 @@ void Simulation::CreateFluidEmitter(glm::dvec2 posn, double particlesPerSec,
     );
 }
 
-void Simulation::Draw(const ur2::Device& dev, ur2::Context& ctx)
+void Simulation::Draw(const ur::Device& dev, ur::Context& ctx)
 {
     tess::Painter pt;
     pt.SetAntiAliased(false);
@@ -536,7 +536,7 @@ void Simulation::Draw(const ur2::Device& dev, ur2::Context& ctx)
     //const float half_point_size = 2.5f;
     //pt.AddRectFilled(sm::vec2(m_point.x, m_point.y), half_point_size, 0xffffffff);
 
-    ur2::RenderState rs;
+    ur::RenderState rs;
     pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 }
 
@@ -599,7 +599,7 @@ void Simulation::DrawParticles(tess::Painter& pt, const sm::mat4& mt)
     }
 }
 
-void Simulation::DrawBodies(const ur2::Device& dev, ur2::Context& ctx,
+void Simulation::DrawBodies(const ur::Device& dev, ur::Context& ctx,
                             tess::Painter& pt, const sm::mat4& mt)
 {
     for (size_t i = 0; i < m_bodies.size(); i++)
@@ -632,7 +632,7 @@ void Simulation::DrawBodies(const ur2::Device& dev, ur2::Context& ctx,
     }
 }
 
-void Simulation::DrawGlobals(const ur2::Device& dev, ur2::Context& ctx,
+void Simulation::DrawGlobals(const ur::Device& dev, ur::Context& ctx,
                              tess::Painter& pt, const sm::mat4& mt)
 {
     for (size_t i = 0; i < m_global_constraints.size(); i++) {
